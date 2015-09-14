@@ -1,0 +1,46 @@
+apply plugin: 'scala'
+
+dependencies {
+    compile "org.scala-lang:scala-library:2.11.7"
+    testCompile "io.gatling.highcharts:gatling-charts-highcharts:2.1.7"
+}
+
+compileScala {
+    scalaCompileOptions.useCompileDaemon = true
+
+}
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.useAnt = false
+}
+
+task gatling(dependsOn: ['compileTestScala', 'processTestResources']) << {
+    javaexec {
+        main = 'io.gatling.app.Gatling'
+        classpath = sourceSets.test.output + sourceSets.test.runtimeClasspath
+        args('--binaries-folder',
+                sourceSets.test.output.classesDir,
+                '--simulation',
+                "com.barclaycard.collections.simulation.AllSimulation",
+                '--results-folder',
+                'build/reports/gatling')
+        environment(['appUrl': appUrl, 'noOfUsers': noOfUsers, 'durationInMinutes': durationInMinutes, 'rampUpInMinutes': rampUpInMinutes])
+    }
+}
+
+def getAppUrl() {
+    System.getProperty("appUrl") ?: 'http://localhost:8080'
+}
+
+def getNoOfUsers() {
+    System.getProperty("noOfUsers") ?: 1
+}
+
+def getDurationInMinutes() {
+    System.getProperty("durationInMinutes") ?: 1
+}
+
+def getRampUpInMinutes() {
+    System.getProperty("rampUpInMinutes") ?: 1
+}
+

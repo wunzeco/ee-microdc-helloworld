@@ -1,0 +1,71 @@
+Release notes:
+
+Prerequisites
+-------------
+
+Java 8 or later must be installed - the application does not work with earlier versions.
+
+
+One off setup
+-------------
+
+Create a uid that you are going to run the application under.
+
+Installation instructions
+-------------------------
+
+
+
+The release artefact is a 'fatjar' - it is fully self contained and can be executed via the 'java -jar' command: java -jar <path to the artefact>
+
+
+Before running it you should create a logging configuration file to control the logging output of the application.  The application uses
+logback internally.  Here is an example configuration:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] %logger{15} - %msg%n%rEx</pattern>
+            <immediateFlush>false</immediateFlush>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+</configuration>
+
+You can put your logging configuration file wherever you like provided it can be read by the application.
+
+The application can be configured generally by creating a file called application.yaml in the same directory that you run the application from.
+
+Here are the current configuration properties supported by the application along with an explanation:
+
+server.port - the http port you want the application to respond to. e.g. 8080
+server.context-path - the url context you want the application to be accessible under. e.g. 'ops'
+logging.config - the path (including the name) of the logback.xml file that controls the application logging.
+
+For example, the following configuration (NOTE: the format is yaml):
+
+server.port: 8080
+server.context-path: ops
+logging.config : /etc/default/ops-ui/logback.xml
+
+Would mean the application is accessible at http://<host>:8080/ops/sayHello.  Logging configuration would be loaded from /etc/default/ops-ui/logback.xml.
+
+
+Checking the application is running successfully
+------------------------------------------------
+
+Go to the application home page:  http://<host>:<port>/<context>/sayHello
+Type ‘admin’ for the username and ‘admin’ for the password
+You should see a page that says ‘Yo Joe’
+You can also visit the health check and metrics URLs for the application:  http://<host>:<port>/<context>/health and
+http://<host>:<port>/<context>/metrics.

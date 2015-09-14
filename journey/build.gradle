@@ -1,0 +1,16 @@
+apply plugin: 'java'
+
+dependencies {
+    testCompile('org.seleniumhq.selenium:selenium-java:2.47.1')
+    testCompile('junit:junit:4.10')
+}
+test.enabled = false
+
+task integrationTest(type: Test, dependsOn: ["compileTestJava"])  {
+    systemProperty "appUrl", getAppUrlValue()
+}
+
+def getAppUrlValue(){
+    hasProperty("appUrl") ? "$appUrl" : "http://localhost:8080"
+}
+

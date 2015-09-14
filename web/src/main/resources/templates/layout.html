@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">BarclayCard</title>
+    <link href="css/main.css" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+    <script src="css/ie-compatible.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="container">
+    <header>
+        <h3><img src="images/barclaycard-logo.png"/></h3>
+    </header>
+    <section layout:fragment="content">
+        <p>Page content goes here</p>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="text-center">&copy;BarclayCard 2015</div>
+</footer>
+</body>
+</html>

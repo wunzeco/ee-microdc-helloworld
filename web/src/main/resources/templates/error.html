@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Error</title>
+</head>
+<body>
+    <section layout:fragment="content">
+        <div th:switch="${status}">
+            <p th:case="'404'" qa-error-status="404">Page not found</p>
+            <p th:case="'403'" qa-error-status="403">Page not found for you</p>
+            <p th:case="'500'" qa-error-status="500">Bad things happened on the server</p>
+            <p th:case="*"><p>Sorry, something bad has happened.</p>
+                <span th:text="${error}">error</span>
+                <span th:text="${status}">error</span>
+            </p>
+        </div>
+    </section>
+</body>
+</html>
