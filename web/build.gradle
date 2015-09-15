@@ -116,3 +116,19 @@ task genStatic(type: JavaExec) {
 
 //project.tasks.jar.dependsOn(createGitProperties)
 assemble.dependsOn(genStatic)
+
+
+task stopApp << {
+    def cmd = "lsof -Fp -i :8080"
+    def process = cmd.execute()
+    process.in.eachLine { line ->
+        def killProcess = "kill -9 ${line.substring(1)}".execute()
+        killProcess.waitFor()
+    }
+}
+
+task startApp(type: ExecWait) {
+    command './gradlew bootRun'
+    ready 'Started HelloWorldApplication'
+    directory './'
+}

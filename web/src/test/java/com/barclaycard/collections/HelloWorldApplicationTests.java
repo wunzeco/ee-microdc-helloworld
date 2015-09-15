@@ -16,9 +16,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = OpsUiApplication.class)
+@SpringApplicationConfiguration(classes = HelloWorldApplication.class)
 @WebAppConfiguration
-public class OpsUiApplicationTests {
+public class HelloWorldApplicationTests {
 
 	@Autowired
 	WebApplicationContext ctx;

@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @EnableAutoConfiguration
 @Import({Controllers.class})
-public class OpsUiApplication {
+public class HelloWorldApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OpsUiApplication.class, args);
+        SpringApplication.run(HelloWorldApplication.class, args);
     }
 }
