@@ -89,9 +89,8 @@ task stopApp << {
 }
 
 task startApp(type: ExecWait) {
-    command './gradlew bootRun'
-    ready 'Started HelloWorldApplication'
-    directory './'
+    location System.getProperty("fatJarLocation")
+
 }
 
 //springBoot {

@@ -1,11 +1,12 @@
 class ExecWait extends DefaultTask {
-    String command
-    String ready
-    String directory
+    String location
+    String ready = 'Started HelloWorldApplication'
+    String directory = "./"
 
     @TaskAction
     def spawnProcess() {
 
+        def command = "java -jar ${location}"
         ProcessBuilder builder = new ProcessBuilder(command.split(' '))
         builder.redirectErrorStream(true)
         builder.directory(new File(directory))
