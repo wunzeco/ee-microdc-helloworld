@@ -26,7 +26,7 @@
 
 # Initialize variables that cannot be provided by a .conf file
 
-identity="collections-helloworld"
+identity="collections-hello-world"
 source /etc/default/$identity
 #WORKING_DIR=$COLLECTIONS_WORKING_DIR
 #run_user=$OPS_UI_USER

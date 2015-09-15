@@ -23,7 +23,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 
 ext {
-    artifactsName = 'collections-helloworld'
+    artifactsName = 'collections-hello-world'
     artifactsVersion = '0.0.1-SNAPSHOT'
 }
 
