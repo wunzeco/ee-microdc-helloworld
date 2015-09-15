@@ -29,7 +29,7 @@ task gatling(dependsOn: ['compileTestScala', 'processTestResources']) << {
 }
 
 def getAppUrl() {
-    System.getProperty("appUrl") ?: 'http://localhost:8080'
+    System.getProperty("appUrl") ?: 'http://localhost:8888'
 }
 
 def getNoOfUsers() {
