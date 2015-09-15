@@ -11,6 +11,6 @@ task integrationTest(type: Test, dependsOn: ["compileTestJava"])  {
 }
 
 def getAppUrlValue(){
-    hasProperty("appUrl") ? "$appUrl" : "http://localhost:8080"
+    hasProperty("appUrl") ? "$appUrl" : "http://localhost:8888"
 }
 
