@@ -1,12 +1,14 @@
 class ExecWait extends DefaultTask {
     String location
+    String port
     String ready = 'Started HelloWorldApplication'
     String directory = "./"
 
     @TaskAction
     def spawnProcess() {
 
-        def command = "java -jar ${location}"
+        def portOption = port ? "--server.port=${port}" : ''
+        def command = "java -jar ${location} ${portOption}"
         ProcessBuilder builder = new ProcessBuilder(command.split(' '))
         builder.redirectErrorStream(true)
         builder.directory(new File(directory))

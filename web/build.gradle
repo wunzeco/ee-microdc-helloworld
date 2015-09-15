@@ -80,7 +80,8 @@ task wrapper(type: Wrapper) {
 
 
 task stopApp << {
-    def cmd = "lsof -Fp -i :8888"
+    def port = System.getProperty("serverPort") ?: "8888"
+    def cmd = "lsof -Fp -i :${port}"
     def process = cmd.execute()
     process.in.eachLine { line ->
         def killProcess = "kill -9 ${line.substring(1)}".execute()
@@ -90,7 +91,7 @@ task stopApp << {
 
 task startApp(type: ExecWait) {
     location System.getProperty("fatJarLocation")
-
+    port System.getProperty("serverPort")
 }
 
 //springBoot {
