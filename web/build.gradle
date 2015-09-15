@@ -23,7 +23,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 
 ext {
-    artifactsName = 'barclaycard-collections-ui'
+    artifactsName = 'collections-helloworld'
     artifactsVersion = '0.0.1-SNAPSHOT'
 }
 
@@ -45,6 +45,11 @@ repositories {
 
 sourceSets {
     wro
+}
+
+springBoot {
+    executable = true
+    embeddedLaunchScript = file("linux-init-script.sh")
 }
 
 dependencies {

@@ -20,24 +20,20 @@
 # chkconfig:         2345 99 01
 ### END INIT INFO
 
-###
-#
-# Modified for Ops-UI build because a Jenkins started service could not be killed with 'kill -HUP'
-#
-###
+
 
 [[ -n "$DEBUG" ]] && set -x
 
 # Initialize variables that cannot be provided by a .conf file
 
-source /etc/default/ops-ui
-WORKING_DIR=$OPS_UI_WORKING_DIR
-run_user=$OPS_UI_USER
+identity="collections-helloworld"
+source /etc/default/$identity
+#WORKING_DIR=$COLLECTIONS_WORKING_DIR
+#run_user=$OPS_UI_USER
 
-jarfile="$WORKING_DIR/ops-ui.jar"
+jarfile="$WORKING_DIR/collections-hello-world.jar"
 jarfolder="$WORKING_DIR"
 MODE="service"
-identity="ops-ui"
 
 cd "$WORKING_DIR"
 
