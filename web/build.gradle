@@ -50,10 +50,6 @@ sourceSets {
     wro
 }
 
-springBoot {
-    executable = true
-    embeddedLaunchScript = file("linux-init-script.sh")
-}
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -94,28 +90,24 @@ task startApp(type: ExecWait) {
     port System.getProperty("serverPort")
 }
 
-//springBoot {
-//    executable = true
-//    embeddedLaunchScript = file("linux-init-script.sh")
-//}
 
-//task createGitProperties << {
-//    def repo = Grgit.open(project.file('../'))
-//    def dir = new File(project.buildDir, "resources/main")
-//    def file = new File(project.buildDir, "resources/main/git.properties")
-//    if (!dir.exists()) {
-//        dir.mkdirs()
-//    }
-//    if (!file.exists()) {
-//        file.createNewFile()
-//    }
-//    def map = ["git.branch"                : repo.branch.current.name,
-//               "git.commit.id"             : repo.head().id,
-//               "git.commit.time"           : repo.head().getDate().format("yyyyMMdd-HHmmss")]
-//    def props = new Properties()
-//    props.putAll(map)
-//    props.store(file.newWriter(), "")
-//}
+task createGitProperties << {
+    def repo = Grgit.open(project.file('../'))
+    def dir = new File(project.buildDir, "resources/main")
+    def file = new File(project.buildDir, "resources/main/git.properties")
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
+    if (!file.exists()) {
+        file.createNewFile()
+    }
+    def map = ["git.branch"                : repo.branch.current.name,
+               "git.commit.id"             : repo.head().id,
+               "git.commit.time"           : repo.head().getDate().format("yyyyMMdd-HHmmss")]
+    def props = new Properties()
+    props.putAll(map)
+    props.store(file.newWriter(), "")
+}
 
 task genStatic(type: JavaExec) {
     classpath = sourceSets.wro.runtimeClasspath + sourceSets.main.compileClasspath
@@ -125,18 +117,6 @@ task genStatic(type: JavaExec) {
 }
 
 
-//task createDist(type: Tar, dependsOn: 'bootRepackage') {
-//    outputs.upToDateWhen { false }
-//    from ('src/main/dist/scripts') { fileMode = 0744 }
-//    from ('build/libs') {
-//        exclude '*.original'
-//    }
-//    from ('src/main/resources') {
-//        include 'application.yaml'
-//    }
-//    baseName = artifactsName
-//    version = artifactsVersion
-//}
 
-//project.tasks.jar.dependsOn(createGitProperties)
+project.tasks.jar.dependsOn(createGitProperties)
 assemble.dependsOn(genStatic)
