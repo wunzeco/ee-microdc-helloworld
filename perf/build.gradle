@@ -5,14 +5,6 @@ dependencies {
     testCompile "io.gatling.highcharts:gatling-charts-highcharts:2.1.7"
 }
 
-compileScala {
-    scalaCompileOptions.useCompileDaemon = true
-
-}
-
-tasks.withType(ScalaCompile) {
-    scalaCompileOptions.useAnt = false
-}
 
 task gatling(dependsOn: ['compileTestScala', 'processTestResources']) << {
     javaexec {

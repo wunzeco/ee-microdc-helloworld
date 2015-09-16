@@ -9,7 +9,6 @@ buildscript {
     }
     repositories {
         mavenCentral()
-        jcenter()
         maven {
             url "http://repo.spring.io/milestone"
         }
@@ -41,7 +40,6 @@ repositories {
     maven {
         url "http://repo.spring.io/milestone"
     }
-    jcenter()
 }
 
 
@@ -55,7 +53,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("com.equalexperts:opslogger:0.3.0")
+
 
     wroRuntime("ro.isdc.wro4j:wro4j-core:1.7.7")
     wroRuntime("ro.isdc.wro4j:wro4j-extensions:1.7.7")
@@ -67,7 +65,7 @@ dependencies {
     wroRuntime("org.webjars:html5shiv:3.7.3")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
-    testCompile("com.equalexperts:opslogger-support:0.3.0")
+
 }
 
 task wrapper(type: Wrapper) {
