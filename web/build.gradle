@@ -9,9 +9,6 @@ buildscript {
     }
     repositories {
         mavenCentral()
-        maven {
-            url "http://repo.spring.io/milestone"
-        }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
@@ -35,13 +32,6 @@ jar {
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-repositories {
-    maven {
-        url "http://repo.spring.io/milestone"
-    }
-}
-
 
 
 sourceSets {
