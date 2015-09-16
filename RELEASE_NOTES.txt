@@ -15,7 +15,6 @@ Installation instructions
 -------------------------
 
 
-
 The release artefact is a 'fatjar' - it is fully self contained and can be executed via the 'java -jar' command: java -jar <path to the artefact>
 
 
@@ -55,17 +54,17 @@ logging.config - the path (including the name) of the logback.xml file that cont
 For example, the following configuration (NOTE: the format is yaml):
 
 server.port: 8080
-server.context-path: ops
-logging.config : /etc/default/ops-ui/logback.xml
+server.context-path: collections
+logging.config : /etc/default/collections/logback.xml
 
-Would mean the application is accessible at http://<host>:8080/ops/sayHello.  Logging configuration would be loaded from /etc/default/ops-ui/logback.xml.
+Would mean the application is accessible at http://<host>:8080/collections/sayHello.  Logging configuration would be loaded from /etc/default/collections/logback.xml.
 
 
 Checking the application is running successfully
 ------------------------------------------------
 
 Go to the application home page:  http://<host>:<port>/<context>/sayHello
-Type ‘admin’ for the username and ‘admin’ for the password
 You should see a page that says ‘Yo Joe’
 You can also visit the health check and metrics URLs for the application:  http://<host>:<port>/<context>/health and
 http://<host>:<port>/<context>/metrics.
+To see the build information you can visit http://<host>:<port>/<context>/info

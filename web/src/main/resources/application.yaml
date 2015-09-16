@@ -1,6 +1,5 @@
 salutation: Yo
 spring.thymeleaf.cache: false
-opslog.location: logs
 server.port: 8888
 server.context-path:
 logging.config : classpath:logback.xml
