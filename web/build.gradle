@@ -5,7 +5,7 @@ apply from: '../execWait.gradle'
 
 buildscript {
     ext {
-        springBootVersion = '1.3.0.M2'
+        springBootVersion = '1.2.5.RELEASE'
     }
     repositories {
         mavenCentral()
