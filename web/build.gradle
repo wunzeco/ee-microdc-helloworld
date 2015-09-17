@@ -22,7 +22,7 @@ apply plugin: 'io.spring.dependency-management'
 
 ext {
     artifactsName = 'collections-hello-world'
-    artifactsVersion = '0.0.1'
+    artifactsVersion = '0.0.2-SNAPSHOT'
 }
 
 jar {
