@@ -1,6 +1,5 @@
 import org.ajoberstar.grgit.Grgit
 
-
 apply from: '../execWait.gradle'
 
 buildscript {
@@ -23,7 +22,7 @@ apply plugin: 'io.spring.dependency-management'
 
 ext {
     artifactsName = 'collections-hello-world'
-    artifactsVersion = '0.0.1-SNAPSHOT'
+    artifactsVersion = '0.0.1'
 }
 
 jar {
@@ -33,11 +32,9 @@ jar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-
 sourceSets {
     wro
 }
-
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -62,7 +59,6 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
 }
 
-
 task stopApp << {
     def port = System.getProperty("serverPort") ?: "8888"
     def cmd = "lsof -Fp -i :${port}"
@@ -77,7 +73,6 @@ task startApp(type: ExecWait) {
     location System.getProperty("fatJarLocation")
     port System.getProperty("serverPort")
 }
-
 
 task createGitProperties << {
     def repo = Grgit.open(project.file('../'))
@@ -103,8 +98,6 @@ task genStatic(type: JavaExec) {
     args "--contextFolder=$projectDir/src/main/wro", "--wroFile=$projectDir/src/main/wro/wro.xml", "--wroConfigurationFile=$projectDir/src/main/wro/wro.properties", "--destinationFolder=$projectDir/src/main/resources/static/css", "-m"
     systemProperty "project.basedir", "$projectDir"
 }
-
-
 
 project.tasks.jar.dependsOn(createGitProperties)
 assemble.dependsOn(genStatic)

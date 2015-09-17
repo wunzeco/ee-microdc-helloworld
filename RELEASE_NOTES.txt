@@ -44,6 +44,7 @@ logback internally.  Here is an example configuration:
 You can put your logging configuration file wherever you like provided it can be read by the application.
 
 The application can be configured generally by creating a file called application.yaml in the same directory that you run the application from.
+For more details see: http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config-application-property-files
 
 Here are the current configuration properties supported by the application along with an explanation:
 
