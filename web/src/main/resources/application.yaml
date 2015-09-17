@@ -1,4 +1,4 @@
-salutation: Hello
+salutation: Yo
 spring.thymeleaf.cache: false
 server.port: 8888
 server.context-path:
