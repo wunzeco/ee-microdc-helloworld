@@ -95,9 +95,10 @@ task createGitProperties << {
 task genStatic(type: JavaExec) {
     classpath = sourceSets.wro.runtimeClasspath + sourceSets.main.compileClasspath
     main = "ro.isdc.wro.runner.Wro4jCommandLineRunner"
-    args "--contextFolder=$projectDir/src/main/wro", "--wroFile=$projectDir/src/main/wro/wro.xml", "--wroConfigurationFile=$projectDir/src/main/wro/wro.properties", "--destinationFolder=$projectDir/src/main/resources/static/css", "-m"
+    args "--contextFolder=$projectDir/src/main/wro", "--wroFile=$projectDir/src/main/wro/wro.xml", "--wroConfigurationFile=$projectDir/src/main/wro/wro.properties", "--destinationFolder=$projectDir/build/resources/main/static/css", "-m"
     systemProperty "project.basedir", "$projectDir"
 }
+
 
 project.tasks.jar.dependsOn(createGitProperties)
 assemble.dependsOn(genStatic)
