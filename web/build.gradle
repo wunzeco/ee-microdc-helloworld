@@ -70,7 +70,7 @@ task stopApp << {
 }
 
 task startApp(type: ExecWait) {
-    location System.getProperty("fatJarLocation")
+    location System.getProperty("fatJarLocation", jar.archivePath.absolutePath)
     port System.getProperty("serverPort")
 }
 
