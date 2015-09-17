@@ -101,4 +101,4 @@ task genStatic(type: JavaExec) {
 
 
 project.tasks.jar.dependsOn(createGitProperties)
-assemble.dependsOn(genStatic)
+project.tasks.jar.dependsOn(genStatic)
