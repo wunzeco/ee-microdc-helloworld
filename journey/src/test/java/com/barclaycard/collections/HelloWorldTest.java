@@ -25,7 +25,7 @@ public class HelloWorldTest {
     public void defaultGreetingShouldBeYoJoe() {
         WebBrowser.navigateTo("/sayHello");
 
-        assertThat(WebBrowser.findElement(cssSelector("[data-qa-greeting]")).getText(), is("Yo Joe"));
+        assertThat(WebBrowser.findElement(cssSelector("[data-qa-greeting]")).getText(), is("Hello Joe"));
 
     }
 
@@ -36,7 +36,7 @@ public class HelloWorldTest {
 
         WebBrowser.navigateTo("/sayHello?name=Jim");
 
-        assertThat(WebBrowser.findElement(cssSelector("[data-qa-greeting]")).getText(), is("Yo Jim"));
+        assertThat(WebBrowser.findElement(cssSelector("[data-qa-greeting]")).getText(), is("Hello Jim"));
     }
 
 }
