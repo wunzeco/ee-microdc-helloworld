@@ -18,6 +18,7 @@ public class HelloControllerTest {
     public void sayHello_shouldGreetTheUser() throws Exception {
         mockMvc.perform(get("/sayHello"))
                 .andExpect(model().attribute("greeting", "Hello"))
+                .andExpect(model().attribute("name", "Joe"))
                 .andExpect(view().name("hello"));
     }
 

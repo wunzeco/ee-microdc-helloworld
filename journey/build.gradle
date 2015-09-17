@@ -8,6 +8,7 @@ test.enabled = false
 
 task integrationTest(type: Test, dependsOn: ["compileTestJava"])  {
     systemProperty "appUrl", getAppUrlValue()
+    outputs.upToDateWhen { false }
 }
 
 def getAppUrlValue(){

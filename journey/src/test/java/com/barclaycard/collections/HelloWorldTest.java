@@ -22,10 +22,17 @@ public class HelloWorldTest {
     }
 
     @Test
-    public void helloWorld() {
+    public void defaultGreetingShouldBeYoJoe() {
         WebBrowser.navigateTo("/sayHello");
 
         assertThat(WebBrowser.findElement(cssSelector("[data-qa-greeting]")).getText(), is("Yo Joe"));
+
+    }
+
+
+
+    @Test
+    public void greetingShouldReflectTheProvidedName() {
 
         WebBrowser.navigateTo("/sayHello?name=Jim");
 
