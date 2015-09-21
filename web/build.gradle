@@ -8,17 +8,20 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
         classpath("io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE")
         classpath('org.ajoberstar:gradle-git:1.1.0')
+        classpath('se.transmode.gradle:gradle-docker:1.2')
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'spring-boot' 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'docker'
 
 ext {
     artifactsName = 'collections-hello-world'
@@ -54,6 +57,19 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
 }
+
+distributions {
+
+    main {
+        baseName = artifactsName
+        version = artifactsVersion
+    }
+
+}
+
+//startScripts {
+//    applicationName = artifactsName
+//}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
@@ -102,3 +118,17 @@ task genStatic(type: JavaExec) {
 
 project.tasks.jar.dependsOn(createGitProperties)
 project.tasks.jar.dependsOn(genStatic)
+
+
+
+docker {
+    baseImage = 'java:8'
+}
+
+//task createDockerFile(type: Docker) {
+//    applicationName = artifactsName
+//    tagVersion = artifactsVersion
+//    volume('/opt/collections')
+//    addFile(jar.archivePath.absolutePath, '/opt/collections/collections-hello-world.jar')
+//    entryPoint(["java","-jar","/opt/collections/collections-hello-world.jar"])
+//}
