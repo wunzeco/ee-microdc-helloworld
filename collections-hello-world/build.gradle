@@ -45,6 +45,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
+    compile 'com.mixpanel:mixpanel-java:1.4.3'
 
     wroRuntime("ro.isdc.wro4j:wro4j-core:1.7.7")
     wroRuntime("ro.isdc.wro4j:wro4j-extensions:1.7.7")

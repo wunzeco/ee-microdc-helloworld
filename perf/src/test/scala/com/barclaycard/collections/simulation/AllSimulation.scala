@@ -1,6 +1,6 @@
 package com.barclaycard.collections.simulation
 
-import com.barclaycard.collections.simulation.GreetingSimulation._
+import com.barclaycard.collections.simulation.NotificationSimulation._
 import io.gatling.core.Predef._
 import io.gatling.core.scenario.Simulation
 import io.gatling.http.Predef._
@@ -12,7 +12,7 @@ class AllSimulation extends Simulation{
     .baseURL(sys.env("appUrl")).disableFollowRedirect
 
   setUp(
-    loginAndGreetScenario.inject(rampUsers(sys.env("noOfUsers").toInt) over (sys.env("rampUpInMinutes").toInt minutes))
+    sendNotificationsScenario.inject(rampUsers(sys.env("noOfUsers").toInt) over (sys.env("rampUpInMinutes").toInt minutes))
   ).protocols(httpConf).assertions(
       global.responseTime.percentile3.lessThan(50),
       global.successfulRequests.percent.greaterThan(95)

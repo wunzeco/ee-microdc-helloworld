@@ -1,23 +1,24 @@
 package com.barclaycard.collections.controllers;
 
+import com.barclaycard.collections.model.CustomerProfile;
+import com.barclaycard.collections.system.NotificationDeliverer;
+import com.barclaycard.collections.system.Notifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class NotificationDecisionController {
-    private final String greeting;
 
-    public NotificationDecisionController(String greeting) {
-        this.greeting = greeting;
-    }
+    @RequestMapping(value = "/sendNotifications", method = RequestMethod.POST)
+    public ResponseEntity<Void> sendNotifications(@RequestBody CustomerProfile profile) {
+        Notifier notifier = new Notifier();
+        NotificationDeliverer notificationDeliverer = notifier.customerNotification(profile);
+        notificationDeliverer.send();
 
-    @RequestMapping(value = "/sayHello", method = RequestMethod.GET)
-    public String sayHello(@RequestParam(value = "name", defaultValue = "Joe") String name, Model model) {
-        model.addAttribute("greeting", greeting);
-        model.addAttribute("name", name);
-        return "hello";
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 }

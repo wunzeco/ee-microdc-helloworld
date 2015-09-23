@@ -1,7 +1,11 @@
 package com.barclaycard.collections.system;
 
-/**
- * Created by saqib on 23/09/2015.
- */
+import com.barclaycard.collections.model.CustomerProfile;
+
 public class Notifier {
+    public NotificationDeliverer customerNotification(CustomerProfile profile) {
+        return NotificationDeliverer.forCustomer(profile);
+    }
+
 }
+

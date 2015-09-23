@@ -1,34 +1,28 @@
 package com.barclaycard.collections.controllers;
 
+import com.barclaycard.collections.model.CustomerProfile;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class NotificationDecisionControllerTest {
 
-    NotificationDecisionController controller = new NotificationDecisionController("Hello");
+    NotificationDecisionController controller = new NotificationDecisionController();
     MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).setValidator(new LocalValidatorFactoryBean()).build();
 
     @Test
-    public void sayHello_shouldGreetTheUser() throws Exception {
-        mockMvc.perform(get("/sayHello"))
-                .andExpect(model().attribute("greeting", "Hello"))
-                .andExpect(model().attribute("name", "Joe"))
-                .andExpect(view().name("hello"));
+    public void sendNotification_shouldReturnNoContent() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        CustomerProfile customerProfile = new CustomerProfile("bob", "H", "bob@bob.com", "07123123456", "email");
+        mockMvc.perform(post("/sendNotifications")
+                .content(mapper.writeValueAsBytes(customerProfile))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
-
-    @Test
-    public void sayHello_shouldGreetTheUserByName_givenANameIsSupplied() throws Exception {
-        mockMvc.perform(get("/sayHello?name=Ben"))
-                .andExpect(model().attribute("greeting", "Hello"))
-                .andExpect(model().attribute("name", "Ben"))
-                .andExpect(view().name("hello"));
-    }
-
-
 }

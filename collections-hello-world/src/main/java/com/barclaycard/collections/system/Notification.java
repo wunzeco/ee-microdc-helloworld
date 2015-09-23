@@ -1,7 +1,9 @@
 package com.barclaycard.collections.system;
 
-/**
- * Created by saqib on 23/09/2015.
- */
-public class Notification {
+public enum Notification {
+    None,
+    Email,
+    SMS,
+    Letter,
+    Voice
 }

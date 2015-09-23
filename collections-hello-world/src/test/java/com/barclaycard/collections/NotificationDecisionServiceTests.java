@@ -1,10 +1,13 @@
 package com.barclaycard.collections;
 
+import com.barclaycard.collections.model.CustomerProfile;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -12,7 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,13 +30,13 @@ public class NotificationDecisionServiceTests {
 	public void setUp() throws Exception {
 		mvc = MockMvcBuilders.webAppContextSetup(ctx).build();
 	}
-	@Test
-	public void controllerEndpointsAreAccessible() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get(UrlFixtures.DYNAMIC_URL)).andExpect(status().isOk());
-	}
 
 	@Test
-	public void staticData_isAccessible() throws Exception {
-	    mvc.perform(MockMvcRequestBuilders.get(UrlFixtures.STATIC_URL)).andExpect(status().isOk());
+	public void controllerEndpointsAreAccessible() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		CustomerProfile customerProfile = new CustomerProfile("bob", "H", "bob@bob.com", "07123123456", "email");
+		mvc.perform(MockMvcRequestBuilders.post(UrlFixtures.DYNAMIC_URL)
+		.content(mapper.writeValueAsBytes(customerProfile))
+		.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
 	}
 }
