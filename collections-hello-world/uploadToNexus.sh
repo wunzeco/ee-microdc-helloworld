@@ -43,9 +43,4 @@ cat >pom.xml <<EOL
 EOL
 
 
-curl -k -v -F r=$ARTIFACT_NEXUS_REPO \ 
-           -F hasPom=true \
-           -F e=$ARTIFACT_EXTENSION \
-           -F file=@$POM_FILE \
-           -F file=@$ARTIFACT \ 
-           -u $NEXUS_LOGIN $NEXUS_ENDPOINT 
+curl -k -v -F r=$ARTIFACT_NEXUS_REPO -F hasPom=true -F e=$ARTIFACT_EXTENSION -F file=@$POM_FILE -F file=@$ARTIFACT -u $NEXUS_LOGIN $NEXUS_ENDPOINT 
