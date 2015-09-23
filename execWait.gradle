@@ -1,7 +1,7 @@
 class ExecWait extends DefaultTask {
     String location
     String port
-    String ready = 'Started HelloWorldApplication'
+    String ready = 'Started NotificationDecisionService'
     String directory = "./"
 
     @TaskAction
