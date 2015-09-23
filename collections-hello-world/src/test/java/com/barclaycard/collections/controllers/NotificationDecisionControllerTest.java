@@ -9,9 +9,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-public class HelloControllerTest {
+public class NotificationDecisionControllerTest {
 
-    HelloController controller = new HelloController("Hello");
+    NotificationDecisionController controller = new NotificationDecisionController("Hello");
     MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).setValidator(new LocalValidatorFactoryBean()).build();
 
     @Test

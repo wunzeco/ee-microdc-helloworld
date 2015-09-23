@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class HelloController {
+public class NotificationDecisionController {
     private final String greeting;
 
-    public HelloController(String greeting) {
+    public NotificationDecisionController(String greeting) {
         this.greeting = greeting;
     }
 

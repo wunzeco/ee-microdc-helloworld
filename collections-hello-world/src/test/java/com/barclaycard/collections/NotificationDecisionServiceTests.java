@@ -16,9 +16,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = HelloWorldApplication.class)
+@SpringApplicationConfiguration(classes = NotificationDecisionService.class)
 @WebAppConfiguration
-public class HelloWorldApplicationTests {
+public class NotificationDecisionServiceTests {
 
 	@Autowired
 	WebApplicationContext ctx;

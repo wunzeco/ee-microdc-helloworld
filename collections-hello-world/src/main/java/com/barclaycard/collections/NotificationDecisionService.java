@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @EnableAutoConfiguration
 @Import({Controllers.class})
-public class HelloWorldApplication {
+public class NotificationDecisionService {
 
     public static void main(String[] args) {
-        SpringApplication.run(HelloWorldApplication.class, args);
+        SpringApplication.run(NotificationDecisionService.class, args);
     }
 }
