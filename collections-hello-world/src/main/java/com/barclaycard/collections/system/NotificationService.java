@@ -8,11 +8,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 
 public class NotificationService {
 
     private final static String PROJECT_TOKEN = "cd865237e1c9f06d8bbfc20666926b3b";
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     private final MessageBuilder messageBuilder;
     private final ClientDelivery clientDelivery;
@@ -40,6 +44,10 @@ public class NotificationService {
         try {
             final JSONObject properties = new JSONObject();
             properties.put("notificationType", notificationType);
+            if (customerProfile.time != null) {
+                final LocalDateTime localDateTime = LocalDateTime.parse(customerProfile.time, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
+                properties.put("time", String.valueOf(localDateTime.toEpochSecond(ZoneOffset.UTC)));
+            }
             clientDelivery.addMessage(messageBuilder.event(customerProfile.customerId, "NotificationTestEvent", properties));
             mixpanelAPI.deliver(clientDelivery);
         } catch (IOException|JSONException e) {
