@@ -9,25 +9,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import static org.springframework.util.StringUtils.isEmpty;
 
 public class NotificationDeliverer {
 
     public static NotificationDeliverer forCustomer(final CustomerProfile customerProfile) {
-
-        return new NotificationDeliverer(customerProfile, notificationTypeForCustomer(customerProfile));
-    }
-
-    private static Notification notificationTypeForCustomer(CustomerProfile customerProfile) {
-        switch(customerProfile.contactPreference) {
-            case "email": if (!isEmpty(customerProfile.email)) return Notification.Email;
-            case "mobile": if (!isEmpty(customerProfile.mobile)) return Notification.SMS;
-            default:
-                if (!isEmpty(customerProfile.email)) return Notification.Email;
-                else if (!isEmpty(customerProfile.mobile)) return Notification.SMS;
-        }
-
-        return Notification.Letter;
+        CustomerNotification customerNotification = new CustomerNotification(customerProfile);
+        return new NotificationDeliverer(customerProfile, customerNotification.getNotification());
     }
 
     private final static String PROJECT_TOKEN = "f346f7b1fb0a69969724710bc6963cdc";
@@ -49,7 +36,6 @@ public class NotificationDeliverer {
     }
 
     public void send() {
-
         try {
             final JSONObject properties = new JSONObject();
             properties.put("notificationType", notification);
@@ -58,5 +44,13 @@ public class NotificationDeliverer {
         } catch (IOException|JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public CustomerProfile getCustomerProfile() {
+        return customerProfile;
+    }
+
+    public Notification getNotification() {
+        return notification;
     }
 }
