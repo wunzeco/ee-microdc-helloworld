@@ -34,7 +34,7 @@ public class NotificationDecisionServiceTests {
 	@Test
 	public void controllerEndpointsAreAccessible() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
-		CustomerProfile customerProfile = new CustomerProfile("bob", "H", "bob@bob.com", "07123123456", "email");
+		CustomerProfile customerProfile = new CustomerProfile("bob", "C", "1", "bob@bob.com", "07123123456", "email");
 		mvc.perform(MockMvcRequestBuilders.post(UrlFixtures.DYNAMIC_URL)
 		.content(mapper.writeValueAsBytes(customerProfile))
 		.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());

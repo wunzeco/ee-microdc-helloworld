@@ -1,8 +1,8 @@
 package com.barclaycard.collections.controllers;
 
 import com.barclaycard.collections.model.CustomerProfile;
-import com.barclaycard.collections.system.NotificationSender;
-import com.barclaycard.collections.system.Notifier;
+import com.barclaycard.collections.system.NotificationService;
+import com.barclaycard.collections.system.CollectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,8 +20,8 @@ public class NotificationDecisionController {
 
     @RequestMapping(value = "/sendNotifications", method = RequestMethod.POST)
     public ResponseEntity<Void> sendNotifications(@RequestBody CustomerProfile profile) {
-        Notifier notifier = new Notifier(profile, suppressNotifications);
-        notifier.doNotify();
+        CollectionService collectionService = new CollectionService(profile, suppressNotifications);
+        collectionService.doNotify();
 
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
@@ -29,8 +29,8 @@ public class NotificationDecisionController {
     @RequestMapping(value = "/notifications", method = RequestMethod.GET)
     public
     @ResponseBody
-    List<NotificationSender> getNotifications() {
-        List<NotificationSender> deliveredNotifications = Notifier.getNotifications();
+    List<NotificationService> getNotifications() {
+        List<NotificationService> deliveredNotifications = CollectionService.getNotifications();
 
         return deliveredNotifications;
     }
@@ -38,8 +38,8 @@ public class NotificationDecisionController {
     @RequestMapping(value = "/notifications/{customerId}", method = RequestMethod.GET)
     public
     @ResponseBody
-    List<NotificationSender> getNotificationsForCustomer(@PathVariable("customerId") String customerId) {
-        List<NotificationSender> deliveredNotifications = Notifier.getNotifications(customerId);
+    List<NotificationService> getNotificationsForCustomer(@PathVariable("customerId") String customerId) {
+        List<NotificationService> deliveredNotifications = CollectionService.getNotifications(customerId);
 
         return deliveredNotifications;
     }

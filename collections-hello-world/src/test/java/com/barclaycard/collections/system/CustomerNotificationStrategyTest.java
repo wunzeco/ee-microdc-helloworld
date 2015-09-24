@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 public class CustomerNotificationStrategyTest {
     @Test
     public void getNotification_shouldReturnLetterWhenCustomerHasNietherEmailNorMobile() throws Exception {
-        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "risk_rating", null, null, null);
+        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "C", "1", null, null, null);
         CustomerNotificationStrategy noContacts = new CustomerNotificationStrategy(noContactsCustomer);
 
         assertThat(noContacts.getNotificationType(), IsEqual.equalTo(NotificationType.Letter));
@@ -17,7 +17,7 @@ public class CustomerNotificationStrategyTest {
 
     @Test
     public void getNotification_shouldReturnSMSWhenCustomerHasOnlyMobile() throws Exception {
-        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "risk_rating", null, "07712123123", null);
+        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "C", "1", null, "07712123123", null);
         CustomerNotificationStrategy noContacts = new CustomerNotificationStrategy(noContactsCustomer);
 
         assertThat(noContacts.getNotificationType(), IsEqual.equalTo(NotificationType.SMS));
@@ -25,7 +25,7 @@ public class CustomerNotificationStrategyTest {
 
     @Test
     public void getNotification_shouldReturnEmailWhenCustomerHasOnlyEmail() throws Exception {
-        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "risk_rating", "test_contact@test.com", null, null);
+        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "C", "1", "test_contact@test.com", null, null);
         CustomerNotificationStrategy noContacts = new CustomerNotificationStrategy(noContactsCustomer);
 
         assertThat(noContacts.getNotificationType(), IsEqual.equalTo(NotificationType.Email));
@@ -33,7 +33,7 @@ public class CustomerNotificationStrategyTest {
 
     @Test
     public void getNotification_shouldReturnEmailWhenCustomerHasEmailAndMobile() throws Exception {
-        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "risk_rating", "test_contact@test.com", "07123123123", null);
+        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "C", "1", "test_contact@test.com", "07123123123", null);
         CustomerNotificationStrategy noContacts = new CustomerNotificationStrategy(noContactsCustomer);
 
         assertThat(noContacts.getNotificationType(), IsEqual.equalTo(NotificationType.Email));
@@ -41,7 +41,7 @@ public class CustomerNotificationStrategyTest {
 
     @Test
     public void getNotification_shouldReturnEmailWhenCustomerHasEmailAndMobileWithEmailPreferred() throws Exception {
-        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "risk_rating", "test_contact@test.com", "07123123123", "email");
+        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "C", "1", "test_contact@test.com", "07123123123", "email");
         CustomerNotificationStrategy noContacts = new CustomerNotificationStrategy(noContactsCustomer);
 
         assertThat(noContacts.getNotificationType(), IsEqual.equalTo(NotificationType.Email));
@@ -49,7 +49,7 @@ public class CustomerNotificationStrategyTest {
 
     @Test
     public void getNotification_shouldReturnSMSWhenCustomerHasEmailAndMobileWithMobilePreferred() throws Exception {
-        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "risk_rating", "test_contact@test.com", "07123123123", "mobile");
+        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "C", "1", "test_contact@test.com", "07123123123", "mobile");
         CustomerNotificationStrategy noContacts = new CustomerNotificationStrategy(noContactsCustomer);
 
         assertThat(noContacts.getNotificationType(), IsEqual.equalTo(NotificationType.SMS));
@@ -57,7 +57,7 @@ public class CustomerNotificationStrategyTest {
 
     @Test
     public void getNotification_shouldReturnSMSWhenCustomerHasOnlyMobileWithEmailPreferred() throws Exception {
-        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "risk_rating", null, "07123123123", "email");
+        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "C", "1", null, "07123123123", "email");
         CustomerNotificationStrategy noContacts = new CustomerNotificationStrategy(noContactsCustomer);
 
         assertThat(noContacts.getNotificationType(), IsEqual.equalTo(NotificationType.SMS));
@@ -65,7 +65,7 @@ public class CustomerNotificationStrategyTest {
 
     @Test
     public void getNotification_shouldReturnEmailWhenCustomerHasOnlyEmailWithMobilePreferred() throws Exception {
-        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "risk_rating", "test_contact@test.com", null, "email");
+        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "C", "1", "test_contact@test.com", null, "email");
         CustomerNotificationStrategy noContacts = new CustomerNotificationStrategy(noContactsCustomer);
 
         assertThat(noContacts.getNotificationType(), IsEqual.equalTo(NotificationType.Email));
@@ -73,7 +73,7 @@ public class CustomerNotificationStrategyTest {
 
     @Test
     public void getNotification_shouldReturnLetterWhenCustomerHasNeitherEmailNorMobileAndSomePreference() throws Exception {
-        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "risk_rating", null, null, "email");
+        final CustomerProfile noContactsCustomer = new CustomerProfile("test_contact", "C", "1", null, null, "email");
         CustomerNotificationStrategy noContacts = new CustomerNotificationStrategy(noContactsCustomer);
 
         assertThat(noContacts.getNotificationType(), IsEqual.equalTo(NotificationType.Letter));

@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 
-public class NotificationSender {
+public class NotificationService {
 
     private final static String PROJECT_TOKEN = "cd865237e1c9f06d8bbfc20666926b3b";
 
@@ -22,7 +22,7 @@ public class NotificationSender {
     private final NotificationType notificationType;
     private final boolean suppressSend;
 
-    public NotificationSender(CustomerProfile customerProfile, NotificationType theNotificationType, boolean suppressSend){
+    public NotificationService(CustomerProfile customerProfile, NotificationType theNotificationType, boolean suppressSend) {
         this.suppressSend = suppressSend;
         messageBuilder = new MessageBuilder(PROJECT_TOKEN);
         clientDelivery = new ClientDelivery();

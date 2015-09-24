@@ -19,7 +19,7 @@ public class NotificationDecisionControllerTest {
     @Test
     public void sendNotification_shouldReturnNoContent() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        CustomerProfile customerProfile = new CustomerProfile("bob", "H", "bob@bob.com", "07123123456", "email");
+        CustomerProfile customerProfile = new CustomerProfile("bob", "C", "1", "bob@bob.com", "07123123456", "email");
         mockMvc.perform(post("/sendNotifications")
                 .content(mapper.writeValueAsBytes(customerProfile))
                 .contentType(MediaType.APPLICATION_JSON))
