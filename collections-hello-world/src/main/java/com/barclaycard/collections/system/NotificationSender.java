@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class NotificationSender {
 
-    private final static String PROJECT_TOKEN = "f346f7b1fb0a69969724710bc6963cdc";
+    private final static String PROJECT_TOKEN = "cd865237e1c9f06d8bbfc20666926b3b";
 
     private final MessageBuilder messageBuilder;
     private final ClientDelivery clientDelivery;
