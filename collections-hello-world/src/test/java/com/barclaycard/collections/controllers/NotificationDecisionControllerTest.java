@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class NotificationDecisionControllerTest {
 
-    NotificationDecisionController controller = new NotificationDecisionController();
+    NotificationDecisionController controller = new NotificationDecisionController(true);
     MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).setValidator(new LocalValidatorFactoryBean()).build();
 
     @Test

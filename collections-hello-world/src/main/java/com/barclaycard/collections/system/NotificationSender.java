@@ -10,12 +10,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 
-public class NotificationDeliverer {
-
-    public static NotificationDeliverer forCustomer(final CustomerProfile customerProfile) {
-        CustomerNotification customerNotification = new CustomerNotification(customerProfile);
-        return new NotificationDeliverer(customerProfile, customerNotification.getNotification());
-    }
+public class NotificationSender {
 
     private final static String PROJECT_TOKEN = "f346f7b1fb0a69969724710bc6963cdc";
 
@@ -24,21 +19,27 @@ public class NotificationDeliverer {
     private final MixpanelAPI mixpanelAPI;
 
     private final CustomerProfile customerProfile;
-    private final Notification notification;
+    private final NotificationType notificationType;
+    private final boolean suppressSend;
 
-    private NotificationDeliverer(CustomerProfile customerProfile, Notification theNotification){
+    public NotificationSender(CustomerProfile customerProfile, NotificationType theNotificationType, boolean suppressSend){
+        this.suppressSend = suppressSend;
         messageBuilder = new MessageBuilder(PROJECT_TOKEN);
         clientDelivery = new ClientDelivery();
         mixpanelAPI = new MixpanelAPI();
 
         this.customerProfile = customerProfile;
-        notification = theNotification;
+        notificationType = theNotificationType;
     }
 
     public void send() {
+        if(!suppressSend) doSend();
+    }
+
+    void doSend() {
         try {
             final JSONObject properties = new JSONObject();
-            properties.put("notificationType", notification);
+            properties.put("notificationType", notificationType);
             clientDelivery.addMessage(messageBuilder.event(customerProfile.customerId, "NotificationTestEvent", properties));
             mixpanelAPI.deliver(clientDelivery);
         } catch (IOException|JSONException e) {
@@ -50,7 +51,7 @@ public class NotificationDeliverer {
         return customerProfile;
     }
 
-    public Notification getNotification() {
-        return notification;
+    public NotificationType getNotificationType() {
+        return notificationType;
     }
 }

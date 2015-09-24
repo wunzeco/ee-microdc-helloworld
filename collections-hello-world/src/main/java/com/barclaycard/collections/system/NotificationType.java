@@ -1,6 +1,6 @@
 package com.barclaycard.collections.system;
 
-public enum Notification {
+public enum NotificationType {
     None,
     Email,
     SMS,
