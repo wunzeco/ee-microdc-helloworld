@@ -71,6 +71,8 @@ distributions {
 
 docker {
     baseImage = 'java:8'
+    useApi true
+    hostUrl 'http://dev-bukt-docker1.internal:4243'
 }
 
 task wrapper(type: Wrapper) {
