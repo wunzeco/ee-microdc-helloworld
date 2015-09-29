@@ -17,7 +17,7 @@ if [ "$GIT_BRANCH" == "origin/master" ] || [ "$GIT_BRANCH" == "master" ]
 then
         ARTIFACT_VERSION=$2
 else
-        ARTIFACT_VERSION=`echo $GIT_BRANCH | cut -d'/' -f3`-$2
+        ARTIFACT_VERSION="${GIT_BRANCH##*/}-$2"
 fi
 
 

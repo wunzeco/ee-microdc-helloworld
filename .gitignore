@@ -17,6 +17,5 @@ hs_err_pid*
 *.iws
 
 .gradle
-gradle
 build
 web/src/main/resources/static/css
