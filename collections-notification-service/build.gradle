@@ -4,7 +4,9 @@ apply from: '../execWait.gradle'
 apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'docker'
+apply plugin: 'application'
+apply plugin: 'com.bmuschko.docker-remote-api'
+apply plugin: 'com.bmuschko.docker-java-application'
 
 buildscript {
     ext {
@@ -18,14 +20,14 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE")
         classpath('org.ajoberstar:gradle-git:1.1.0')
-        classpath('se.transmode.gradle:gradle-docker:1.2')
+	classpath('com.bmuschko:gradle-docker-plugin:2.6')
     }
 }
 
 
 ext {
     artifactsName = 'collections-notification-service'
-    artifactsVersion = '0.0.2-SNAPSHOT'
+    artifactsVersion = '0.0.1'
 }
 
 jar {
@@ -72,7 +74,20 @@ distributions {
 }
 
 docker {
-    baseImage = 'java:8'
+    url = System.getProperty("dockerHost", "http://localhost:5432") 
+
+    javaApplication {
+        baseImage = 'java:8'
+        maintainer = 'Equal Experts "barclaycard@equalexperts.com"'
+        port = 8080
+        tag = artifactsName + ':' + buildTime()
+    }
+}
+
+def buildTime() {
+    def date = new Date()
+    def formattedDate = date.format('yyMMddHHmmss')
+    return formattedDate
 }
 
 task wrapper(type: Wrapper) {
@@ -123,3 +138,18 @@ task genStatic(type: JavaExec) {
 project.tasks.jar.dependsOn(createGitProperties)
 project.tasks.jar.dependsOn(genStatic)
 
+// Docker stuff
+import com.bmuschko.gradle.docker.tasks.image.*
+import com.bmuschko.gradle.docker.tasks.container.*
+
+task createDockerfile(type: Dockerfile) {
+    destFile = project.file('build/docker/Dockerfile')
+    from       "java:8"
+    maintainer 'Equal Experts "barclaycard@equalexperts.com"'
+    runCommand "groupadd -r bukt && useradd -r -g bukt bukt"
+    runCommand "mkdir -p /opt/app /opt/app/lib /opt/app/conf"
+    user       "bukt"
+    copyFile   "${artifactsName}-${artifactsVersion}.jar", "/opt/app/lib/"
+    entryPoint "java", "-Dspring.config.location=/opt/app/conf/app.yml", "-jar", "/opt/app/lib/${artifactsName}-${artifactsVersion}.jar"
+    exposePort 9090
+}
