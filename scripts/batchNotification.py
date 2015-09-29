@@ -4,6 +4,8 @@ import random
 import datetime
 import itertools
 
+from loremipsum import get_paragraph
+
 def send_notification_request(customer_profile):
     host   = 'localhost:8888'
     url = "http://{0}/sendNotifications".format(host)
@@ -25,13 +27,21 @@ def create_random_profile(time):
         "accountStatus": "C",
         "cycle": "1",
         "email": email,
-        "contactPreference": random.choice(preferences),
-        "time": time.strftime("%Y-%m-%d %H:%M:%S")
+        "mobile": ''.join("%0.11d" % random.randint(0,999999999999)),
+        "contactPreference": random.choice(preferences)
     }
-    print profile
-    return profile
+    details = {
+        "time": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "text": get_paragraph()
+    }
+    payload = {
+        "profile": profile,
+        "details": details
+    }
+    print payload
+    return payload
 
 date_generator = (datetime.datetime.today() - datetime.timedelta(minutes=i) for i in itertools.count())
 
-for t in itertools.islice(date_generator, 100):
+for t in itertools.islice(date_generator, 10):
     send_notification_request(create_random_profile(t))

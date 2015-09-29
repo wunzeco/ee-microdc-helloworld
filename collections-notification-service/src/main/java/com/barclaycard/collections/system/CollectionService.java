@@ -1,6 +1,6 @@
 package com.barclaycard.collections.system;
 
-import com.barclaycard.collections.model.CustomerProfile;
+import com.barclaycard.collections.model.Notification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,22 +9,15 @@ import java.util.stream.Collectors;
 public class CollectionService {
     private final static List<NotificationService> notificationDeliveries = new ArrayList<>();
 
-    private final CustomerProfile customerProfile;
+    private final Notification notification;
     private final Boolean suppressNotifications;
     private final CustomerNotificationStrategy customerNotificationStrategy;
 
-    public CollectionService(CustomerProfile theCustomerProfile, Boolean suppressNotifications) {
-        customerProfile = theCustomerProfile;
-        customerNotificationStrategy = new CustomerNotificationStrategy(customerProfile);
+    public CollectionService(Notification theNotification, Boolean suppressNotifications) {
+        notification = theNotification;
+        customerNotificationStrategy = new CustomerNotificationStrategy(notification.profile);
 
         this.suppressNotifications = suppressNotifications;
-    }
-
-    public void doNotify() {
-        final NotificationService notificationService =
-                new NotificationService(customerProfile, customerNotificationStrategy.getNotificationType(), suppressNotifications);
-        notificationService.send();
-        notificationDeliveries.add(notificationService);
     }
 
     public static List<NotificationService> getNotifications() {
@@ -33,8 +26,15 @@ public class CollectionService {
 
     public static List<NotificationService> getNotifications(String customerId) {
         return notificationDeliveries.stream()
-                .filter(nd -> nd.getCustomerProfile().customerId.equals(customerId))
+                .filter(nd -> nd.getNotification().profile.customerId.equals(customerId))
                 .collect(Collectors.toList());
+    }
+
+    public void doNotify() {
+        final NotificationService notificationService =
+                new NotificationService(notification, customerNotificationStrategy.getNotificationType(), suppressNotifications);
+        notificationService.send();
+        notificationDeliveries.add(notificationService);
     }
 }
 

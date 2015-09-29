@@ -1,6 +1,7 @@
 package com.barclaycard.collections.controllers;
 
 import com.barclaycard.collections.model.CustomerProfile;
+import com.barclaycard.collections.model.Notification;
 import com.barclaycard.collections.system.NotificationService;
 import com.barclaycard.collections.system.CollectionService;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,8 @@ public class NotificationDecisionController {
     }
 
     @RequestMapping(value = "/sendNotifications", method = RequestMethod.POST)
-    public ResponseEntity<Void> sendNotifications(@RequestBody CustomerProfile profile) {
-        CollectionService collectionService = new CollectionService(profile, suppressNotifications);
+    public ResponseEntity<Void> sendNotifications(@RequestBody Notification notification) {
+        CollectionService collectionService = new CollectionService(notification, suppressNotifications);
         collectionService.doNotify();
 
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

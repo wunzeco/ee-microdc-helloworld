@@ -1,6 +1,8 @@
 package com.barclaycard.collections.system;
 
 import com.barclaycard.collections.model.CustomerProfile;
+import com.barclaycard.collections.model.Notification;
+import com.barclaycard.collections.model.NotificationDetails;
 import com.mixpanel.mixpanelapi.ClientDelivery;
 import com.mixpanel.mixpanelapi.MessageBuilder;
 import com.mixpanel.mixpanelapi.MixpanelAPI;
@@ -22,41 +24,45 @@ public class NotificationService {
     private final ClientDelivery clientDelivery;
     private final MixpanelAPI mixpanelAPI;
 
-    private final CustomerProfile customerProfile;
+    private final Notification notification;
     private final NotificationType notificationType;
     private final boolean suppressSend;
 
-    public NotificationService(CustomerProfile customerProfile, NotificationType theNotificationType, boolean suppressSend) {
+    public NotificationService(Notification notification, NotificationType theNotificationType, boolean suppressSend) {
         this.suppressSend = suppressSend;
         messageBuilder = new MessageBuilder(PROJECT_TOKEN);
         clientDelivery = new ClientDelivery();
         mixpanelAPI = new MixpanelAPI();
 
-        this.customerProfile = customerProfile;
+        this.notification = notification;
         notificationType = theNotificationType;
     }
 
     public void send() {
-        if(!suppressSend) doSend();
+        if (!suppressSend) doSend();
     }
 
     void doSend() {
         try {
+            final CustomerProfile profile = notification.profile;
+            final NotificationDetails details = notification.details;
+
             final JSONObject properties = new JSONObject();
             properties.put("notificationType", notificationType);
-            if (customerProfile.time != null) {
-                final LocalDateTime localDateTime = LocalDateTime.parse(customerProfile.time, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
+            properties.put("text", details.text);
+            if (details.time != null) {
+                final LocalDateTime localDateTime = LocalDateTime.parse(details.time, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
                 properties.put("time", String.valueOf(localDateTime.toEpochSecond(ZoneOffset.UTC)));
             }
-            clientDelivery.addMessage(messageBuilder.event(customerProfile.customerId, "NotificationTestEvent", properties));
+            clientDelivery.addMessage(messageBuilder.event(notification.profile.customerId, "NotificationTestEvent", properties));
             mixpanelAPI.deliver(clientDelivery);
-        } catch (IOException|JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public CustomerProfile getCustomerProfile() {
-        return customerProfile;
+    public Notification getNotification() {
+        return notification;
     }
 
     public NotificationType getNotificationType() {

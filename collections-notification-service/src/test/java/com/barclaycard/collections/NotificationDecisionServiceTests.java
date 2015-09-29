@@ -1,6 +1,8 @@
 package com.barclaycard.collections;
 
 import com.barclaycard.collections.model.CustomerProfile;
+import com.barclaycard.collections.model.Notification;
+import com.barclaycard.collections.model.NotificationDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,8 +40,11 @@ public class NotificationDecisionServiceTests {
 	public void controllerEndpointsAreAccessible() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		CustomerProfile customerProfile = new CustomerProfile("bob", "C", "1", "bob@bob.com", "07123123456", "email");
+		NotificationDetails notificationDetails = new NotificationDetails(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "Some text");
+		Notification notification = new Notification(customerProfile, notificationDetails);
 		mvc.perform(MockMvcRequestBuilders.post(UrlFixtures.DYNAMIC_URL)
-		.content(mapper.writeValueAsBytes(customerProfile))
-		.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
+		.content(mapper.writeValueAsBytes(notification))
+		.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNoContent());
 	}
 }
