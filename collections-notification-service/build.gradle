@@ -24,7 +24,7 @@ buildscript {
 
 
 ext {
-    artifactsName = 'collections-hello-world'
+    artifactsName = 'collections-notification-service'
     artifactsVersion = '0.0.2-SNAPSHOT'
 }
 
