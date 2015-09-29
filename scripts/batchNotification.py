@@ -15,24 +15,26 @@ def send_notification_request(customer_profile):
 email_domains = ["gmail.com", "yahoo.com", "hotmail.com"]
 first_names = ["John", "Jane", "Bob", "Liz", "Mike", "Ellie", "Oliver", "Jessica"]
 last_names = ["Smith", "Jones", "Hanks", "Osbourne", "Taylor", "Grant", "Miller"]
-preferences = ["email", "mobile", "letter"]
-froms = ["customer","barclaycard"]
+preferencesMap = {"email": ["barclaycard"], "mobile": ["customer","barclaycard"]}
+preferences = preferencesMap.keys()
 
 def create_random_profile(time):
     first_name = random.choice(first_names)
     last_name = random.choice(last_names)
     customerId = first_name + " " + last_name
     email = customerId.lower().replace(" ", ".") + "@" + random.choice(email_domains)
+    preference = random.choice(preferences)
+    froms = preferencesMap[preference]
     profile = {
         "customerId": customerId,
         "accountStatus": "C",
         "cycle": "1",
         "email": email,
         "mobile": ''.join("%0.11d" % random.randint(0,999999999999)),
-        "contactPreference": random.choice(preferences)
+        "contactPreference": preference
     }
     details = {
-        "from": random.choice(froms),
+        "from": random.sample(froms, 1)[0],
         "time": time.strftime("%Y-%m-%d %H:%M:%S"),
         "text": get_paragraph()
     }
