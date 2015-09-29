@@ -11,22 +11,24 @@ public class CustomerNotificationStrategy {
         this.customerProfile = customerProfile;
     }
 
-    public NotificationType getNotificationType() {
+    public NotificationMethod getNotificationMethod() {
         if (customerProfile.contactPreference == null) {
-            if (!isEmpty(customerProfile.email)) return NotificationType.Email;
-            else if (!isEmpty(customerProfile.mobile)) return NotificationType.SMS;
+            if (!isEmpty(customerProfile.email)) return NotificationMethod.email;
+            else if (!isEmpty(customerProfile.mobile)) return NotificationMethod.sms;
         } else {
             switch (customerProfile.contactPreference) {
                 case "email":
-                    if (!isEmpty(customerProfile.email)) return NotificationType.Email;
-                case "mobile":
-                    if (!isEmpty(customerProfile.mobile)) return NotificationType.SMS;
+                    if (!isEmpty(customerProfile.email)) return NotificationMethod.email;
+                case "sms":
+                    if (!isEmpty(customerProfile.mobile)) return NotificationMethod.sms;
+                case "voice":
+                    if (!isEmpty(customerProfile.mobile)) return NotificationMethod.voice;
                 default:
-                    if (!isEmpty(customerProfile.email)) return NotificationType.Email;
-                    else if (!isEmpty(customerProfile.mobile)) return NotificationType.SMS;
+                    if (!isEmpty(customerProfile.email)) return NotificationMethod.email;
+                    else if (!isEmpty(customerProfile.mobile)) return NotificationMethod.sms;
             }
         }
 
-        return NotificationType.Letter;
+        return NotificationMethod.letter;
     }
 }

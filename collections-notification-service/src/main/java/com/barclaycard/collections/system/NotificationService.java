@@ -25,17 +25,17 @@ public class NotificationService {
     private final MixpanelAPI mixpanelAPI;
 
     private final Notification notification;
-    private final NotificationType notificationType;
+    private final NotificationMethod notificationMethod;
     private final boolean suppressSend;
 
-    public NotificationService(Notification notification, NotificationType theNotificationType, boolean suppressSend) {
+    public NotificationService(Notification notification, NotificationMethod theNotificationMethod, boolean suppressSend) {
         this.suppressSend = suppressSend;
         messageBuilder = new MessageBuilder(PROJECT_TOKEN);
         clientDelivery = new ClientDelivery();
         mixpanelAPI = new MixpanelAPI();
 
         this.notification = notification;
-        notificationType = theNotificationType;
+        notificationMethod = theNotificationMethod;
     }
 
     public void send() {
@@ -48,7 +48,7 @@ public class NotificationService {
             final NotificationDetails details = notification.details;
 
             final JSONObject properties = new JSONObject();
-            properties.put("notificationType", notificationType);
+            properties.put("notificationMethod", notificationMethod);
             properties.put("text", details.text);
             if (details.time != null) {
                 final LocalDateTime localDateTime = LocalDateTime.parse(details.time, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
@@ -65,7 +65,7 @@ public class NotificationService {
         return notification;
     }
 
-    public NotificationType getNotificationType() {
-        return notificationType;
+    public NotificationMethod getNotificationMethod() {
+        return notificationMethod;
     }
 }

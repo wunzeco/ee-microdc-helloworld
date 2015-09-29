@@ -32,7 +32,7 @@ public class CollectionService {
 
     public void doNotify() {
         final NotificationService notificationService =
-                new NotificationService(notification, customerNotificationStrategy.getNotificationType(), suppressNotifications);
+                new NotificationService(notification, customerNotificationStrategy.getNotificationMethod(), suppressNotifications);
         notificationService.send();
         notificationDeliveries.add(notificationService);
     }
