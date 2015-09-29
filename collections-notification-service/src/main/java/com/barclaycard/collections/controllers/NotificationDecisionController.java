@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +33,6 @@ public class NotificationDecisionController {
     @ResponseBody
     List<NotificationService> getNotifications() {
         List<NotificationService> deliveredNotifications = CollectionService.getNotifications();
-        Collections.reverse(deliveredNotifications);
 
         return deliveredNotifications;
     }
