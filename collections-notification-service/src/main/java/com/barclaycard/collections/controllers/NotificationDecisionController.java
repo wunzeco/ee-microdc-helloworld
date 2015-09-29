@@ -1,14 +1,14 @@
 package com.barclaycard.collections.controllers;
 
-import com.barclaycard.collections.model.CustomerProfile;
 import com.barclaycard.collections.model.Notification;
-import com.barclaycard.collections.system.NotificationService;
 import com.barclaycard.collections.system.CollectionService;
+import com.barclaycard.collections.system.NotificationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -32,6 +32,7 @@ public class NotificationDecisionController {
     @ResponseBody
     List<NotificationService> getNotifications() {
         List<NotificationService> deliveredNotifications = CollectionService.getNotifications();
+        Collections.reverse(deliveredNotifications);
 
         return deliveredNotifications;
     }

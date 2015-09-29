@@ -25,7 +25,7 @@ public class NotificationDecisionControllerTest {
     public void sendNotification_shouldReturnNoContent() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         CustomerProfile customerProfile = new CustomerProfile("bob", "C", "1", "bob@bob.com", "07123123456", "email");
-        NotificationDetails notificationDetails = new NotificationDetails(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "Some text");
+        NotificationDetails notificationDetails = new NotificationDetails(NotificationDetails.NotificationOrigin.customer, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "Some text");
         Notification notification = new Notification(customerProfile, notificationDetails);
         mockMvc.perform(post("/sendNotifications")
                 .content(mapper.writeValueAsBytes(notification))

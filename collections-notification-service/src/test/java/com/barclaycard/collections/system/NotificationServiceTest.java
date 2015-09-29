@@ -15,7 +15,7 @@ public class NotificationServiceTest {
     @Test
     public void send_shouldNotSendNotificationIfSuppressFlagIsTrue() throws Exception {
         CustomerProfile testCustomerProfile = new CustomerProfile("test_customer", "C", "1", "test@test.com", null, null);
-        NotificationDetails testNotificationDetails = new NotificationDetails(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "some notification text");
+        NotificationDetails testNotificationDetails = new NotificationDetails(NotificationDetails.NotificationOrigin.customer, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "some notification text");
         Notification notification = new Notification(testCustomerProfile, testNotificationDetails);
         NotificationService sender = new NotificationService(notification, NotificationType.Email, true);
 
@@ -29,7 +29,7 @@ public class NotificationServiceTest {
     @Test
     public void send_shouldSendNotificationIfSuppressFlagIsFalse() throws Exception {
         CustomerProfile testCustomerProfile = new CustomerProfile("test_customer", "C", "1", "test@test.com", null, null);
-        NotificationDetails testNotificationDetails = new NotificationDetails(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "some notification text");
+        NotificationDetails testNotificationDetails = new NotificationDetails(NotificationDetails.NotificationOrigin.customer, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "some notification text");
         Notification notification = new Notification(testCustomerProfile, testNotificationDetails);
         NotificationService sender = new NotificationService(notification, NotificationType.Email, false);
 

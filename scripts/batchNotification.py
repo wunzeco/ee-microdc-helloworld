@@ -16,6 +16,7 @@ email_domains = ["gmail.com", "yahoo.com", "hotmail.com"]
 first_names = ["John", "Jane", "Bob", "Liz", "Mike", "Ellie", "Oliver", "Jessica"]
 last_names = ["Smith", "Jones", "Hanks", "Osbourne", "Taylor", "Grant", "Miller"]
 preferences = ["email", "mobile", "letter"]
+froms = ["customer","barclaycard"]
 
 def create_random_profile(time):
     first_name = random.choice(first_names)
@@ -31,6 +32,7 @@ def create_random_profile(time):
         "contactPreference": random.choice(preferences)
     }
     details = {
+        "from": random.choice(froms),
         "time": time.strftime("%Y-%m-%d %H:%M:%S"),
         "text": get_paragraph()
     }

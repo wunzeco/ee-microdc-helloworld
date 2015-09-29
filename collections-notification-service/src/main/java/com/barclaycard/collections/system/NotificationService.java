@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 public class NotificationService {
 
     private final static String PROJECT_TOKEN = "cd865237e1c9f06d8bbfc20666926b3b";
-    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     private final MessageBuilder messageBuilder;
     private final ClientDelivery clientDelivery;
