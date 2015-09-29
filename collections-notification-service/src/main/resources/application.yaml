@@ -1,4 +1,4 @@
-suppressNotifications: true
+suppressNotifications: false
 spring.thymeleaf.cache: false
 server.port: 8888
 server.context-path:

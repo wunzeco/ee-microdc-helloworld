@@ -3,6 +3,7 @@ package com.barclaycard.collections;
 import com.barclaycard.collections.model.CustomerProfile;
 import com.barclaycard.collections.model.Notification;
 import com.barclaycard.collections.model.NotificationDetails;
+import com.barclaycard.collections.system.NotificationMethod;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,8 +40,9 @@ public class NotificationDecisionServiceTests {
 	@Test
 	public void controllerEndpointsAreAccessible() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
-		CustomerProfile customerProfile = new CustomerProfile("bob", "C", "1", "bob@bob.com", "07123123456", "email");
-		NotificationDetails notificationDetails = new NotificationDetails(NotificationDetails.NotificationOrigin.customer, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "Some text");
+		CustomerProfile customerProfile = new CustomerProfile("bob_01", "bob", "C", "1", "bob@bob.com", "07123123456", "email");
+		NotificationDetails notificationDetails =
+				new NotificationDetails(NotificationDetails.NotificationOrigin.customer, NotificationMethod.email, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), "Some text");
 		Notification notification = new Notification(customerProfile, notificationDetails);
 		mvc.perform(MockMvcRequestBuilders.post(UrlFixtures.DYNAMIC_URL)
 		.content(mapper.writeValueAsBytes(notification))
