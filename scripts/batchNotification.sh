@@ -1,10 +1,10 @@
 #!/bin/bash
 
-hour=$(date +%k)
+hourSpot=$(date +%k)
 day=$(date +%d)
 endpoint="http://localhost:8888/sendNotifications"
 
-hour=$(($hour - 1))
+hour=$(($hourSpot - 3))
 curl --request POST -H "Content-Type: application/json"  $endpoint --data '
 {
     "profile": {
@@ -24,7 +24,7 @@ curl --request POST -H "Content-Type: application/json"  $endpoint --data '
 }
 '
 
-hour=$(($hour-1))
+hour=$(($hourSpot - 2))
 curl --request POST -H "Content-Type: application/json"  $endpoint --data '
 {
     "profile": {
@@ -44,7 +44,7 @@ curl --request POST -H "Content-Type: application/json"  $endpoint --data '
 }
 '
 
-hour=$(($hour-1))
+hour=$(($hourSpot - 1))
 curl --request POST -H "Content-Type: application/json"  $endpoint --data '
 {
     "profile": {
