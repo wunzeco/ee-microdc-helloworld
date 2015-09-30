@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-hour=$(date +%H)
+hour=$(date +%k)
 day=$(date +%d)
 endpoint="http://localhost:8888/sendNotifications"
 
-hour=$(($hour-1))
+hour=$(($hour - 1))
 curl --request POST -H "Content-Type: application/json"  $endpoint --data '
 {
     "profile": {
