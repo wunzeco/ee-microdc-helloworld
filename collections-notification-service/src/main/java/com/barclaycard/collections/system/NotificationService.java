@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 
 public class NotificationService {
 
-    private final static String PROJECT_TOKEN = "cd865237e1c9f06d8bbfc20666926b3b";
+    private final static String PROJECT_TOKEN = "9e7f073b4605de653b0814e5d9ad48d6";
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     private final MessageBuilder messageBuilder;
@@ -28,14 +28,14 @@ public class NotificationService {
     private final NotificationMethod notificationMethod;
     private final boolean suppressSend;
 
-    public NotificationService(Notification notification, NotificationMethod theNotificationMethod, boolean suppressSend) {
+    public NotificationService(Notification notification, NotificationMethod notificationMethod, boolean suppressSend) {
         this.suppressSend = suppressSend;
         messageBuilder = new MessageBuilder(PROJECT_TOKEN);
         clientDelivery = new ClientDelivery();
         mixpanelAPI = new MixpanelAPI();
 
         this.notification = notification;
-        notificationMethod = theNotificationMethod;
+        this.notificationMethod = notificationMethod;
     }
 
     public void send() {
