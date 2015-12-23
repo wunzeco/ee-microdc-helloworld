@@ -1,5 +1,3 @@
-import org.ajoberstar.grgit.Grgit
-
 apply from: '../execWait.gradle'
 apply plugin: 'java'
 apply plugin: 'spring-boot'
@@ -7,6 +5,14 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'application'
 apply plugin: 'com.bmuschko.docker-remote-api'
 apply plugin: 'com.bmuschko.docker-java-application'
+apply plugin: 'maven'
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import org.ajoberstar.grgit.Grgit
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 buildscript {
     ext {
@@ -20,78 +26,38 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE")
         classpath('org.ajoberstar:gradle-git:1.1.0')
-	classpath('com.bmuschko:gradle-docker-plugin:2.6')
+	    classpath('com.bmuschko:gradle-docker-plugin:2.6')
     }
 }
 
-
 ext {
-    artifactsName = 'collections-notification-service'
-    artifactsVersion = '0.0.1'
+    groupId = 'com.barclaycard'
+    artifactId = 'collections-service'
+    artifactVersion = System.getenv()['BUILD_NUMBER'] ?:  '0.0.1'
+    nexusUrl = 'http://bukt-nexus.equalexperts.com/nexus'
+    (nexusUser, nexusPassword) = System.getenv()['NEXUS_LOGIN'] ? System.getenv()['NEXUS_LOGIN'].split(':') : ["", ""]
 }
 
 jar {
-    baseName = artifactsName
-    version = artifactsVersion
-}
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-sourceSets {
-    wro
-}
-
-dependencies {
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-
-    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-
-    compile 'com.mixpanel:mixpanel-java:1.4.3'
-
-    wroRuntime("ro.isdc.wro4j:wro4j-core:1.7.7")
-    wroRuntime("ro.isdc.wro4j:wro4j-extensions:1.7.7")
-    wroRuntime("org.mockito:mockito-core:1.10.19")
-    wroRuntime("args4j:args4j:2.32")
-    wroRuntime files("$projectDir/gradlelibs/wro4j-runner-1.7.7.jar")
-    wroRuntime("org.webjars:bootstrap:3.2.0")
-    wroRuntime("org.webjars:respond:1.4.2")
-    wroRuntime("org.webjars:html5shiv:3.7.3")
-
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-
+    baseName = artifactId
+    version = artifactVersion
 }
 
 distributions {
-
     main {
-        baseName = artifactsName
-        version = artifactsVersion
-    }
-
-}
-
-docker {
-    url = System.getProperty("dockerHost", "http://localhost:5432") 
-
-    javaApplication {
-        baseImage = 'java:8'
-        maintainer = 'Equal Experts "barclaycard@equalexperts.com"'
-        port = 8080
-        tag = artifactsName + ':' + buildTime()
+        baseName = artifactId
+        version = artifactVersion
     }
 }
 
-def buildTime() {
-    def date = new Date()
-    def formattedDate = date.format('yyMMddHHmmss')
-    return formattedDate
-}
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    compile ("org.json:json:20150729")
+    compile 'com.mixpanel:mixpanel-java:1.4.3'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
 task stopApp << {
@@ -121,27 +87,18 @@ task createGitProperties << {
     }
     def map = ["git.branch"                : repo.branch.current.name,
                "git.commit.id"             : repo.head().id,
-               "git.commit.time"           : repo.head().getDate().format("yyyyMMdd-HHmmss")]
+               "git.commit.time"           : repo.head().getDate().format("yyyyMMdd-HHmmss")
+    ]
     def props = new Properties()
     props.putAll(map)
     props.store(file.newWriter(), "")
 }
 
-task genStatic(type: JavaExec) {
-    classpath = sourceSets.wro.runtimeClasspath + sourceSets.main.compileClasspath
-    main = "ro.isdc.wro.runner.Wro4jCommandLineRunner"
-    args "--contextFolder=$projectDir/src/main/wro", "--wroFile=$projectDir/src/main/wro/wro.xml", "--wroConfigurationFile=$projectDir/src/main/wro/wro.properties", "--destinationFolder=$projectDir/build/resources/main/static/css", "-m"
-    systemProperty "project.basedir", "$projectDir"
-}
-
+project.ext.jenkinsBuildNumber = System.getenv("BUILD_NUMBER") == null ? "local" : System.getenv("BUILD_NUMBER")
 
 project.tasks.jar.dependsOn(createGitProperties)
-project.tasks.jar.dependsOn(genStatic)
 
 // Docker stuff
-import com.bmuschko.gradle.docker.tasks.image.*
-import com.bmuschko.gradle.docker.tasks.container.*
-
 task createDockerfile(type: Dockerfile) {
     destFile = project.file('build/docker/Dockerfile')
     from       "java:8"
@@ -149,7 +106,50 @@ task createDockerfile(type: Dockerfile) {
     runCommand "groupadd -r bukt && useradd -r -g bukt bukt"
     runCommand "mkdir -p /opt/app /opt/app/lib /opt/app/conf"
     user       "bukt"
-    copyFile   "${artifactsName}-${artifactsVersion}.jar", "/opt/app/lib/"
-    entryPoint "java", "-Dspring.config.location=/opt/app/conf/app.yml", "-jar", "/opt/app/lib/${artifactsName}-${artifactsVersion}.jar"
+    copyFile   "${artifactId}-${artifactVersion}.jar", "/opt/app/lib/"
+    entryPoint "java", "-Dspring.config.location=/opt/app/conf/app.yml", "-jar", "/opt/app/lib/${artifactId}-${artifactVersion}.jar"
     exposePort 9090
 }
+
+task distTarGz(type: Tar) {
+    description "Creates a tar.gz file that contains fat jar and Dockerfile"
+    dependsOn createDockerfile
+    compression = compression.GZIP
+    extension = 'tar.gz'
+    from("$project.buildDir/libs") {
+        include("**/*.jar")
+    }
+    from("$project.buildDir/docker") {
+        include("**/Dockerfile")
+    }
+
+}
+
+// maven-publish
+apply plugin: 'maven-publish'
+group groupId
+
+publishing {
+    publications {
+        myPublication(MavenPublication) {
+            artifactId  artifactId
+            version     artifactVersion
+
+            artifact ("${project.buildDir}/distributions/${artifactId}-${artifactVersion}.tar.gz") {
+                extension  = 'tar.gz'
+            }
+        }
+    }
+    // telling gradle to publish artifact to Nexus
+    repositories {
+        maven {
+            url "${nexusUrl}/content/repositories/bukt-build-artifacts"
+            credentials {
+                username nexusUser
+                password nexusPassword
+            }
+        }
+    }
+}
+// maven-publish
+
