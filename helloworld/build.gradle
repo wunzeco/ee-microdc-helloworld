@@ -32,7 +32,7 @@ buildscript {
 
 ext {
     groupId = 'com.barclaycard'
-    artifactId = 'collections-service'
+    artifactId = 'helloworld'
     artifactVersion = System.getenv()['BUILD_NUMBER'] ?:  '0.0.1'
     nexusUrl = 'http://bukt-nexus.equalexperts.com/nexus'
     (nexusUser, nexusPassword) = System.getenv()['NEXUS_LOGIN'] ? System.getenv()['NEXUS_LOGIN'].split(':') : ["", ""]
